@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 const app = express();
 import cookieParser from "cookie-parser";
@@ -54,7 +55,7 @@ const upload = multer({ storage: storage });
 app.post("/api/upload", upload.single("file"), (req, res) => {
   const file = req.file;
   res.status(200).json(file.filename);
-})
+});
 
 //Routes Middleware
 app.use("/api/auth", authRoutes);
@@ -73,8 +74,7 @@ app.use((err, req, res, next) => {
     status,
     message,
   });
-}); 
-
+});
 
 // Data Model Relationships
 User.hasMany(Post, { onUpdate: "CASCADE", onDelete: "CASCADE" });
@@ -90,7 +90,7 @@ Likes.belongsTo(User);
 Post.hasMany(Likes, { onUpdate: "CASCADE", onDelete: "CASCADE" });
 Likes.belongsTo(Post);
 
-sequelize.sync({ alter: true, force: false }).then(() => {
+sequelize.sync().then(() => {
   app.listen(8800, () => {
     console.log("Server Working");
   });

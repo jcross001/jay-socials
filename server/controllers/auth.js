@@ -41,7 +41,7 @@ export const login = async (req, res, next) => {
       return res.status(400).json("Wrong password or username");
     }
     //Pass cookie token
-    const token = jwt.sign({ id: user.id }, "nbf3o2oa9");
+    const token = jwt.sign({ id: user.id }, process.env.JWT_TOKEN);
     const { ...other } = user;
     const {password, ...others} = other.dataValues
 
